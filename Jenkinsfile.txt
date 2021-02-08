@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+    	node {
+		label 'slave1'
+	}
+    }
+    stages {
+	    stage ('Git Checkout') {
+            steps {
+                script {
+				  checkout scm
+				}
+				}}
+		stage ('Switch to target branch') {
+		    steps {
+                echo "Switching to branch"
+                sh 'git checkout main'
+                sh 'git pull'
+            }	}
+        stage ('Execute deployment in Account') {
+            steps {
+                script {
+                    echo "Which Environment"
+                    echo "Hello World"
+                    sh 'python helloworld.py'
+                }}
+        }
+    }
+}  
